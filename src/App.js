@@ -2,13 +2,13 @@ import React from 'react';
 
 import { ScheduleProvider } from './context/scheduleContext';
 import Navbar from './components/Navbar';
-import Calendar from './components/Calendar';
+import CalendarPage from './components/CalendarPage';
 
 function App() {
   return (
     <ScheduleProvider>
       <Navbar />
-      <Calendar />
+      <CalendarPage />
     </ScheduleProvider>
   );
 }
