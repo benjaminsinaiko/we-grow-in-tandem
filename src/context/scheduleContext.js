@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import moment from 'moment';
 
-import { getScheduleDates } from '../utils/dateUtils';
+import getScheduleDates from '../utils/getScheduleDates';
 
 const ScheduleContext = createContext();
 const ScheduleDispatchContext = createContext();
@@ -14,20 +14,25 @@ function sheduleReducer(state, action) {
   }
 }
 
+const initStart = moment()
+  .year(2019)
+  .month(11)
+  .date(16)
+  .hours(12)
+  .startOf('h');
+const initEnd = moment(initStart).add(12, 'w');
+
 const initialDates = {
-  startDate: moment()
-    .year(2019)
-    .month(11)
-    .date(16)
-    .startOf('day'),
+  startDate: initStart,
+  endDate: initEnd,
   duration: 12,
   durationUnit: 'w'
 };
 
 function init() {
-  const { startDate, duration, durationUnit } = initialDates;
-  const plantSchedule = getScheduleDates(startDate, duration, durationUnit);
-  return { ...initialDates, schedule: plantSchedule };
+  const { startDate, endDate, duration, durationUnit } = initialDates;
+  const plantSchedule = getScheduleDates(startDate, endDate, duration, durationUnit);
+  return { ...initialDates, plantSchedule: plantSchedule };
 }
 
 function ScheduleProvider({ children }) {

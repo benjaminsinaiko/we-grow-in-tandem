@@ -12,9 +12,7 @@ const plantInfo = [
   }
 ];
 
-export function getScheduleDates(startDate, duration, durationUnit) {
-  const endDate = moment(startDate).add(duration, durationUnit);
-
+export default function getScheduleDates(startDate, endDate, duration, durationUnit) {
   const plantSchedule = plantInfo.reduce((waterDays, plant) => {
     const plantName = plant.name;
     const daysBetweenWatering = parseInt(plant.water_after);
@@ -30,7 +28,12 @@ export function getScheduleDates(startDate, duration, durationUnit) {
         waterDay = moment(waterDay).add(1, 'd');
       }
       plantDays.push({
-        [`${plantName}`]: waterDay.format()
+        title: plant.name,
+        waterInfo: plant.water_after,
+        start: waterDay.format(),
+        end: waterDay.add(1, 'm').format(),
+        allDay: true,
+        [`${plantName}`]: waterDay
       });
       waterDay = moment(waterDay).add(daysBetweenWatering, 'd');
     }
