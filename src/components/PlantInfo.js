@@ -5,13 +5,9 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import ArrowIcon from '@material-ui/icons/KeyboardArrowRight';
@@ -19,7 +15,6 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 import getUpcoming from '../utils/getUpcoming';
-import UpcomingList from './UpcomingList';
 import plantImage from '../img/plant.png';
 import COLORS from '../utils//colors';
 import moment from 'moment';
@@ -66,8 +61,8 @@ function displayDate(date) {
 export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, plantSchedule }) {
   const classes = useStyles();
   const [upcoming, setUpcoming] = useState([]);
-  console.log('upcoming', upcoming);
 
+  // Get upcoming waterings
   useEffect(() => {
     if (selectedPlant) {
       setUpcoming(getUpcoming(selectedPlant, plantSchedule));

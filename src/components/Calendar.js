@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { useSchedule } from '../context/scheduleContext';
+import './styles.css';
 import COLORS from '../utils/colors';
 import PlantInfo from './PlantInfo';
 
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     padding: theme.spacing(2),
     '& a': {
-      fontSize: '2em',
+      fontSize: '1.5em',
       color: COLORS.purple
     },
     [theme.breakpoints.down('xs')]: {
@@ -62,9 +63,11 @@ export default function Calendar() {
         style={{ width: '100%' }}
         localizer={localizer}
         events={plantSchedule}
-        views={{ month: true, week: true, day: true }}
+        views={{ month: true, work_week: true, day: true }}
         onSelectEvent={handlePlantOpen}
         eventPropGetter={eventStyle}
+        step={30}
+        timeslots={12}
       />
       <PlantInfo
         plantOpen={plantOpen}

@@ -1,0 +1,33 @@
+.rbc-header {
+  height: 40px;
+  font-size: 1.2em;
+}
+
+.rbc-time-header-content {
+  min-height: 450px !important;
+}
+
+.rbc-time-header-cell {
+  min-height: 40px !important;
+}
+
+.rbc-toolbar-label {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .rbc-header {
+    height: 20px;
+    font-size: 0.7em;
+  }
+
+  .rbc-time-header-content {
+    min-height: 250px !important;
+  }
+
+  .rbc-time-header-cell {
+    min-height: 20px !important;
+  }
+}
