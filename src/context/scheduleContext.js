@@ -6,6 +6,7 @@ import getScheduleDates from '../utils/getScheduleDates';
 const ScheduleContext = createContext();
 const ScheduleDispatchContext = createContext();
 
+// Set up for changing watering date
 function sheduleReducer(state, action) {
   switch (action.type) {
     default: {

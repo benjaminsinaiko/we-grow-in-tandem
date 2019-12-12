@@ -32,10 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 function eventStyle() {
   const style = {
-    backgroundColor: COLORS.green,
-    height: 35,
-    display: 'flex',
-    alignItems: 'center'
+    backgroundColor: COLORS.green
   };
   return { style: style };
 }
@@ -47,12 +44,12 @@ export default function Calendar() {
   const [selectedPlant, setSelectedPlant] = useState('');
   const [plantOpen, setPlantOpen] = useState(false);
 
-  const handlePlantOpen = useCallback(plant => {
+  const handlePlantInfoOpen = useCallback(plant => {
     setSelectedPlant(plant);
     setPlantOpen(true);
   }, []);
 
-  const handlePlantClose = useCallback(() => {
+  const handlePlantInfoClose = useCallback(() => {
     setSelectedPlant('');
     setPlantOpen(false);
   }, []);
@@ -61,17 +58,19 @@ export default function Calendar() {
     <Paper elevation={10} className={classes.root}>
       <BigCalendar
         style={{ width: '100%' }}
+        popup
+        popupOffset={{ x: 50, y: -200 }}
         localizer={localizer}
         events={plantSchedule}
         views={{ month: true, work_week: true, day: true }}
-        onSelectEvent={handlePlantOpen}
+        onSelectEvent={handlePlantInfoOpen}
         eventPropGetter={eventStyle}
         step={30}
         timeslots={12}
       />
       <PlantInfo
         plantOpen={plantOpen}
-        handlePlantClose={handlePlantClose}
+        handlePlantClose={handlePlantInfoClose}
         selectedPlant={selectedPlant}
         plantSchedule={plantSchedule}
       />

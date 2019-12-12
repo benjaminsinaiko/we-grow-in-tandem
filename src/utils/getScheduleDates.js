@@ -1,21 +1,11 @@
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 
-// Sample plant info
-const plantInfo = [
-  {
-    name: 'Fiddle Leaf Fig',
-    water_after: '7 days'
-  },
-  {
-    name: "Bird's Nest Fern",
-    water_after: '3 days'
-  }
-];
+// import plant data, could also come from api/db
+import waterData from '../api/waterData.json';
 
-export default function getScheduleDates(startDate, endDate, duration, durationUnit) {
-  const plantSchedule = plantInfo.reduce((waterDays, plant) => {
-    const plantName = plant.name;
+export default function getScheduleDates(startDate, endDate) {
+  const plantSchedule = waterData.reduce((waterDays, plant) => {
     const daysBetweenWatering = parseInt(plant.water_after);
     let waterDay = startDate;
     let plantDays = [];
@@ -34,8 +24,7 @@ export default function getScheduleDates(startDate, endDate, duration, durationU
         waterInfo: plant.water_after,
         start: waterDay.format(),
         end: waterDay.add(1, 'm').format(),
-        allDay: true,
-        [`${plantName}`]: waterDay
+        allDay: true
       });
       waterDay = moment(waterDay).add(daysBetweenWatering, 'd');
     }

@@ -16,8 +16,17 @@
   font-weight: bold;
 }
 
+.rbc-show-more {
+  font-size: 1em !important;
+  font-weight: normal;
+}
+
+.rbc-overlay {
+  top: -200px !important;
+}
+
+/* For mobile: */
 @media only screen and (max-width: 768px) {
-  /* For mobile phones: */
   .rbc-header {
     height: 20px;
     font-size: 0.7em;
@@ -29,5 +38,10 @@
 
   .rbc-time-header-cell {
     min-height: 20px !important;
+  }
+
+  .rbc-show-more {
+    font-size: 0.7em !important;
+    font-weight: normal;
   }
 }
