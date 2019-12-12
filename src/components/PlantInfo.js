@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -7,9 +7,22 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import ArrowIcon from '@material-ui/icons/KeyboardArrowRight';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
+import getUpcoming from '../utils/getUpcoming';
+import UpcomingList from './UpcomingList';
 import plantImage from '../img/plant.png';
+import COLORS from '../utils//colors';
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -26,12 +39,43 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 2
+  },
+  scheduleHeader: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(3),
+    display: 'flex',
+    alignItems: 'center',
+    '& svg': {
+      marginRight: theme.spacing(1)
+    }
+  },
+  upcomingCount: {
+    fontSize: '.9em',
+    color: COLORS.blue,
+    marginLeft: theme.spacing(7)
+  },
+  listBox: {
+    maxHeight: '25vh'
   }
 }));
 
-export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant }) {
+function displayDate(date) {
+  return moment(date).format('ddd, MMM Do YYYY');
+}
+
+export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, plantSchedule }) {
   const classes = useStyles();
-  console.log(selectedPlant);
+  const [upcoming, setUpcoming] = useState([]);
+  console.log('upcoming', upcoming);
+
+  useEffect(() => {
+    if (selectedPlant) {
+      setUpcoming(getUpcoming(selectedPlant, plantSchedule));
+    }
+    return () => {
+      setUpcoming([]);
+    };
+  }, [plantSchedule, selectedPlant]);
 
   if (!selectedPlant) {
     return null;
@@ -48,15 +92,36 @@ export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant }
         <img src={plantImage} alt='potted plant' style={{ width: 150, height: 150 }} />
         <div className={classes.title}>
           <Typography variant='h4'>{selectedPlant.title}</Typography>
-          <Typography
-            variant='subtitle1'
-            color='primary'
-          >{`Water every ${selectedPlant.waterInfo}`}</Typography>
+          <Typography variant='subtitle1'>
+            Water every <span style={{ color: COLORS.blue }}>{selectedPlant.waterInfo}</span>
+          </Typography>
         </div>
       </div>
-      <DialogTitle id='alert-dialog-title'>{'Watering schedule'}</DialogTitle>
+      <Typography className={classes.scheduleHeader} variant='h6'>
+        <ScheduleIcon /> Watering Schedule
+      </Typography>
+      <Divider variant='middle' />
+      <Typography
+        gutterBottom
+        className={classes.upcomingCount}
+      >{`${upcoming.length} upcoming`}</Typography>
       <DialogContent>
-        <DialogContentText id='alert-dialog-description'>Dec 16th</DialogContentText>
+        {upcoming ? (
+          <div className={classes.listBox}>
+            <List dense>
+              {upcoming.map(plant => (
+                <ListItem key={plant.id}>
+                  <ListItemIcon>
+                    <ArrowIcon />
+                  </ListItemIcon>
+                  <ListItemText>{displayDate(plant.start)}</ListItemText>
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        ) : (
+          <Typography style={{ fontStyle: 'italic' }}>No upcoming waterings</Typography>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handlePlantClose} color='secondary'>
