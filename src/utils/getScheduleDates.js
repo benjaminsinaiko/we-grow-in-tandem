@@ -1,4 +1,5 @@
 import moment from 'moment';
+import uuidv4 from 'uuid/v4';
 
 // Sample plant info
 const plantInfo = [
@@ -28,6 +29,7 @@ export default function getScheduleDates(startDate, endDate, duration, durationU
         waterDay = moment(waterDay).add(1, 'd');
       }
       plantDays.push({
+        id: uuidv4(),
         title: plant.name,
         waterInfo: plant.water_after,
         start: waterDay.format(),
