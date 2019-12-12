@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,9 +15,28 @@ const useStyles = makeStyles(theme => ({
     height: '75vh',
     width: '90%',
     margin: theme.spacing(2),
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
+    '& a': {
+      fontSize: '2em',
+      color: '#7700d8'
+    },
+    [theme.breakpoints.down('xs')]: {
+      '& a': {
+        fontSize: '1em'
+      }
+    }
   }
 }));
+
+function eventStyle() {
+  const style = {
+    backgroundColor: '#61d800',
+    height: 35,
+    display: 'flex',
+    alignItems: 'center'
+  };
+  return { style: style };
+}
 
 export default function Calendar() {
   const classes = useStyles();
@@ -26,17 +45,15 @@ export default function Calendar() {
   const [selectedPlant, setSelectedPlant] = useState('');
   const [plantOpen, setPlantOpen] = useState(false);
 
-  console.log('plantSchedule', plantSchedule);
-
-  const handlePlantOpen = e => {
-    setSelectedPlant(e);
+  const handlePlantOpen = useCallback(plant => {
+    setSelectedPlant(plant);
     setPlantOpen(true);
-  };
+  }, []);
 
-  const handlePlantClose = () => {
+  const handlePlantClose = useCallback(() => {
     setSelectedPlant('');
     setPlantOpen(false);
-  };
+  }, []);
 
   return (
     <Paper elevation={10} className={classes.root}>
@@ -46,6 +63,7 @@ export default function Calendar() {
         events={plantSchedule}
         views={{ month: true, week: true, day: true }}
         onSelectEvent={handlePlantOpen}
+        eventPropGetter={eventStyle}
       />
       <PlantInfo
         plantOpen={plantOpen}
