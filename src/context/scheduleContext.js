@@ -9,6 +9,14 @@ const ScheduleDispatchContext = createContext();
 // Set up for changing watering date
 function sheduleReducer(state, action) {
   switch (action.type) {
+    case 'UPDATE_START': {
+      return {
+        startDate: action.start,
+        endDate: action.end,
+        duration: action.duration,
+        durationUnit: action.durationUnit
+      };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

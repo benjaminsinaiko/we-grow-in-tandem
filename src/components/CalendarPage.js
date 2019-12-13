@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 import Calendar from './Calendar';
 
@@ -17,7 +16,6 @@ export default function CalendarPage() {
 
   return (
     <div className={classes.root}>
-      <Typography>Calendar View</Typography>
       <Calendar />
     </div>
   );

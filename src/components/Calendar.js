@@ -16,13 +16,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     height: '75vh',
     width: '90%',
-    margin: theme.spacing(2),
+    marginTop: theme.spacing(4),
     padding: theme.spacing(2),
     '& a': {
       fontSize: '1.5em',
       color: COLORS.purple
     },
     [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(6),
+      height: '70vh',
       '& a': {
         fontSize: '1em'
       }
