@@ -2,19 +2,19 @@ import React, { createContext, useReducer, useContext } from 'react';
 import moment from 'moment';
 
 import getScheduleDates from '../utils/getScheduleDates';
+import { getEndDate } from '../utils/dateHelpers';
 
 const ScheduleContext = createContext();
 const ScheduleDispatchContext = createContext();
 
-// Set up for changing watering date
+// Watering schedule reducer
 function sheduleReducer(state, action) {
   switch (action.type) {
-    case 'UPDATE_START': {
+    case 'SET_SCHEDULE': {
       return {
-        startDate: action.start,
-        endDate: action.end,
-        duration: action.duration,
-        durationUnit: action.durationUnit
+        startDate: action.startDate,
+        endDate: action.endDate,
+        plantSchedule: action.plantSchedule
       };
     }
     default: {
@@ -23,24 +23,24 @@ function sheduleReducer(state, action) {
   }
 }
 
+// Get initial dates
 const initStart = moment()
   .year(2019)
   .month(11)
   .date(16)
   .hours(12)
   .startOf('h');
-const initEnd = moment(initStart).add(12, 'w');
+const initEnd = getEndDate(initStart, 12);
 
 const initialDates = {
   startDate: initStart,
-  endDate: initEnd,
-  duration: 12,
-  durationUnit: 'w'
+  endDate: initEnd
 };
 
+// Lazy initialization of watering schedule
 function init() {
-  const { startDate, endDate, duration, durationUnit } = initialDates;
-  const plantSchedule = getScheduleDates(startDate, endDate, duration, durationUnit);
+  const { startDate, endDate } = initialDates;
+  const plantSchedule = getScheduleDates(startDate, endDate);
   return { ...initialDates, plantSchedule: plantSchedule };
 }
 
@@ -56,6 +56,7 @@ function ScheduleProvider({ children }) {
   );
 }
 
+// Custom context hook for reducer state
 function useSchedule() {
   const context = useContext(ScheduleContext);
   if (context === undefined) {
@@ -64,6 +65,7 @@ function useSchedule() {
   return context;
 }
 
+// Custom context hook for reducer dispatch
 function useScheduleDispatch() {
   const context = useContext(ScheduleDispatchContext);
   if (context === undefined) {

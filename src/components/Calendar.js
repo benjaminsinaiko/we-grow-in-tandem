@@ -56,6 +56,10 @@ export default function Calendar() {
     setPlantOpen(false);
   }, []);
 
+  if (!plantSchedule) {
+    return null;
+  }
+
   return (
     <Paper elevation={10} className={classes.root}>
       <BigCalendar

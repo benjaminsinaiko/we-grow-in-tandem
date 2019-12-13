@@ -15,11 +15,16 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 import getUpcoming from '../utils/getUpcoming';
+import { displayInfoDate } from '../utils/dateHelpers';
 import plantImage from '../img/plant.png';
 import COLORS from '../utils//colors';
-import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
+  dialogBox: {
+    [theme.breakpoints.up('sm')]: {
+      padding: theme.spacing(4)
+    }
+  },
   header: {
     display: 'flex',
     flexDirection: 'row',
@@ -54,10 +59,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function displayDate(date) {
-  return moment(date).format('ddd, MMM Do YYYY');
-}
-
 export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, plantSchedule }) {
   const classes = useStyles();
   const [upcoming, setUpcoming] = useState([]);
@@ -83,46 +84,48 @@ export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, 
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
-      <div className={classes.header}>
-        <img src={plantImage} alt='potted plant' style={{ width: 150, height: 150 }} />
-        <div className={classes.title}>
-          <Typography variant='h4'>{selectedPlant.title}</Typography>
-          <Typography variant='subtitle1'>
-            Water every <span style={{ color: COLORS.blue }}>{selectedPlant.waterInfo}</span>
-          </Typography>
-        </div>
-      </div>
-      <Typography className={classes.scheduleHeader} variant='h6'>
-        <ScheduleIcon /> Watering Schedule
-      </Typography>
-      <Divider variant='middle' />
-      <Typography
-        gutterBottom
-        className={classes.upcomingCount}
-      >{`${upcoming.length} upcoming`}</Typography>
-      <DialogContent>
-        {upcoming ? (
-          <div className={classes.listBox}>
-            <List dense>
-              {upcoming.map(plant => (
-                <ListItem key={plant.id}>
-                  <ListItemIcon>
-                    <ArrowIcon />
-                  </ListItemIcon>
-                  <ListItemText>{displayDate(plant.start)}</ListItemText>
-                </ListItem>
-              ))}
-            </List>
+      <div className={classes.dialogBox}>
+        <div className={classes.header}>
+          <img src={plantImage} alt='potted plant' style={{ width: 150, height: 150 }} />
+          <div className={classes.title}>
+            <Typography variant='h4'>{selectedPlant.title}</Typography>
+            <Typography variant='subtitle1'>
+              Water every <span style={{ color: COLORS.blue }}>{selectedPlant.waterInfo}</span>
+            </Typography>
           </div>
-        ) : (
-          <Typography style={{ fontStyle: 'italic' }}>No upcoming waterings</Typography>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handlePlantClose} color='secondary'>
-          Close
-        </Button>
-      </DialogActions>
+        </div>
+        <Typography className={classes.scheduleHeader} variant='h6'>
+          <ScheduleIcon /> Watering Schedule
+        </Typography>
+        <Divider variant='middle' />
+        <Typography
+          gutterBottom
+          className={classes.upcomingCount}
+        >{`${upcoming.length} upcoming`}</Typography>
+        <DialogContent>
+          {upcoming ? (
+            <div className={classes.listBox}>
+              <List dense>
+                {upcoming.map(plant => (
+                  <ListItem key={plant.id}>
+                    <ListItemIcon>
+                      <ArrowIcon />
+                    </ListItemIcon>
+                    <ListItemText>{displayInfoDate(plant.start)}</ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </div>
+          ) : (
+            <Typography style={{ fontStyle: 'italic' }}>No upcoming waterings</Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handlePlantClose} color='secondary'>
+            Close
+          </Button>
+        </DialogActions>
+      </div>
     </Dialog>
   );
 }

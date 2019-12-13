@@ -1,7 +1,7 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DateFnsUtils from '@date-io/moment';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider, Typography } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -14,6 +14,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 import COLORS from '../utils/colors';
+import { useScheduleDispatch } from '../context/scheduleContext';
+import { getEndDate, displayRangeFormat } from '../utils/dateHelpers';
+import getScheduleDates from '../utils/getScheduleDates';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +43,10 @@ const useStyles = makeStyles(theme => ({
       flexDirection: 'column',
       alignItems: 'center'
     }
+  },
+  dateRange: {
+    fontSize: '.9em',
+    color: COLORS.purple
   }
 }));
 
@@ -69,17 +76,35 @@ const pickerTheme = createMuiTheme({
 
 export default function StartPicker({ updateOpen, handleClose }) {
   const classes = useStyles();
-  const [date, setDate] = useState(moment());
+  const [startDate, setStartDate] = useState(moment());
   const [duration, setDuration] = useState(4);
-  console.log('selectedDate', date);
-  console.log('duration', duration);
+  const [endDate, setEndDate] = useState();
+  const dispatchSchedule = useScheduleDispatch();
+
+  useEffect(() => {
+    setEndDate(getEndDate(startDate, duration));
+  }, [startDate, duration]);
 
   function handleDateChange(date) {
-    setDate(date);
+    if (moment(date).isValid()) {
+      setStartDate(moment(date).startOf('d'));
+    } else {
+      setStartDate(null);
+    }
   }
 
   function handleDurChange(e) {
     setDuration(e.target.value);
+  }
+
+  function handleSubmit() {
+    const schedule = {
+      startDate: startDate,
+      endDate: endDate,
+      plantSchedule: getScheduleDates(startDate, endDate)
+    };
+    handleClose();
+    dispatchSchedule({ type: 'SET_SCHEDULE', ...schedule });
   }
 
   return (
@@ -87,6 +112,7 @@ export default function StartPicker({ updateOpen, handleClose }) {
       onClose={handleClose}
       aria-labelledby='set-schedule-dialog'
       open={updateOpen}
+      transitionDuration={{ enter: 750, exit: 1500 }}
       className={classes.root}
     >
       <div className={classes.panel}>
@@ -105,7 +131,7 @@ export default function StartPicker({ updateOpen, handleClose }) {
                   id='date-picker-dialog'
                   label='Start Date'
                   format='MM/DD/YYYY'
-                  value={date}
+                  value={startDate}
                   disablePast
                   shouldDisableDate={date => date.day() === 0 || date.day() === 6}
                   onChange={handleDateChange}
@@ -131,11 +157,18 @@ export default function StartPicker({ updateOpen, handleClose }) {
           </div>
         </DialogContent>
         <DialogActions>
+          {startDate && duration ? (
+            <Typography className={classes.dateRange}>{`${displayRangeFormat(
+              startDate
+            )} - ${displayRangeFormat(endDate)}`}</Typography>
+          ) : (
+            <Typography className={classes.dateRange}>Enter date and duration</Typography>
+          )}
           <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
-          <Button disabled={!duration} onClick={handleClose} color='primary'>
-            OK
+          <Button disabled={!startDate || !duration} onClick={handleSubmit} color='primary'>
+            SET
           </Button>
         </DialogActions>
       </div>
