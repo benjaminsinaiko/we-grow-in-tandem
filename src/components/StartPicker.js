@@ -67,7 +67,7 @@ const pickerTheme = createMuiTheme({
   }
 });
 
-export default function StartPicker({ updateOpen, handleOpen, handleClose }) {
+export default function StartPicker({ updateOpen, handleClose }) {
   const classes = useStyles();
   const [date, setDate] = useState(moment());
   const [duration, setDuration] = useState(4);
