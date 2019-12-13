@@ -22,7 +22,7 @@ import COLORS from '../utils//colors';
 const useStyles = makeStyles(theme => ({
   dialogBox: {
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(4)
+      padding: theme.spacing(1, 8)
     }
   },
   header: {

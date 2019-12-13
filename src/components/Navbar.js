@@ -17,7 +17,13 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    fontFamily: 'Neucha, Roboto, Helvetica',
+    fontSize: '2.5em',
+    [theme.breakpoints.down('xs')]: {
+      marginRight: theme.spacing(1),
+      fontSize: '1.2em'
+    }
   },
   dateRange: {
     marginRight: theme.spacing(5),

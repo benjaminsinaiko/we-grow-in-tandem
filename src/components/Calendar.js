@@ -16,15 +16,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     height: '75vh',
     width: '90%',
-    marginTop: theme.spacing(4),
-    padding: theme.spacing(2),
+    padding: theme.spacing(4, 2, 7),
     '& a': {
       fontSize: '1.5em',
       color: COLORS.purple
     },
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(6),
-      height: '70vh',
+      height: '67vh',
+      padding: theme.spacing(1),
       '& a': {
         fontSize: '1em'
       }
@@ -61,25 +60,27 @@ export default function Calendar() {
   }
 
   return (
-    <Paper elevation={10} className={classes.root}>
-      <BigCalendar
-        style={{ width: '100%' }}
-        popup
-        popupOffset={{ x: 50, y: -200 }}
-        localizer={localizer}
-        events={plantSchedule}
-        views={{ month: true, work_week: true, day: true }}
-        onSelectEvent={handlePlantInfoOpen}
-        eventPropGetter={eventStyle}
-        step={30}
-        timeslots={12}
-      />
+    <>
+      <Paper elevation={10} className={classes.root}>
+        <BigCalendar
+          style={{ width: '100%' }}
+          popup
+          popupOffset={{ x: 50, y: -200 }}
+          localizer={localizer}
+          events={plantSchedule}
+          views={{ month: true, work_week: true, day: true }}
+          onSelectEvent={handlePlantInfoOpen}
+          eventPropGetter={eventStyle}
+          step={30}
+          timeslots={12}
+        />
+      </Paper>
       <PlantInfo
         plantOpen={plantOpen}
         handlePlantClose={handlePlantInfoClose}
         selectedPlant={selectedPlant}
         plantSchedule={plantSchedule}
       />
-    </Paper>
+    </>
   );
 }
