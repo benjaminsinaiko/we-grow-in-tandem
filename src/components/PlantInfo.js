@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -18,6 +18,7 @@ import getUpcoming from '../utils/getUpcoming';
 import { displayInfoDate } from '../utils/dateHelpers';
 import plantImage from '../img/plant.png';
 import COLORS from '../utils//colors';
+import AdjustDay from './ChangeDate';
 
 const useStyles = makeStyles(theme => ({
   dialogBox: {
@@ -41,18 +42,30 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 2
   },
   scheduleHeader: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(3),
     display: 'flex',
     alignItems: 'center',
-    '& svg': {
-      marginRight: theme.spacing(1)
+    '& span:nth-child(2)': {
+      backgroundColor: COLORS.blue
     }
   },
-  upcomingCount: {
-    fontSize: '.9em',
-    color: COLORS.blue,
-    marginLeft: theme.spacing(7)
+  dateChangeBox: {
+    width: '60%',
+    margin: 'auto',
+    paddingTop: theme.spacing(1),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.lightGreen,
+    borderRadius: 10
+  },
+  dateChangeControl: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  badge: {
+    margin: theme.spacing(2)
   },
   listBox: {
     maxHeight: '25vh'
@@ -84,6 +97,7 @@ export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, 
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
+      <AdjustDay selectedPlant={selectedPlant} />
       <div className={classes.dialogBox}>
         <div className={classes.header}>
           <img src={plantImage} alt='potted plant' style={{ width: 150, height: 150 }} />
@@ -94,14 +108,13 @@ export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, 
             </Typography>
           </div>
         </div>
-        <Typography className={classes.scheduleHeader} variant='h6'>
-          <ScheduleIcon /> Watering Schedule
-        </Typography>
+        <div className={classes.scheduleHeader}>
+          <Badge className={classes.badge} badgeContent={upcoming.length} color='primary'>
+            <ScheduleIcon />
+          </Badge>
+          <Typography variant='h6'>Watering Schedule</Typography>
+        </div>
         <Divider variant='middle' />
-        <Typography
-          gutterBottom
-          className={classes.upcomingCount}
-        >{`${upcoming.length} upcoming`}</Typography>
         <DialogContent>
           {upcoming ? (
             <div className={classes.listBox}>

@@ -43,7 +43,7 @@ export default function Calendar() {
   const localizer = momentLocalizer(moment);
   const { plantSchedule } = useSchedule();
   const [selectedPlant, setSelectedPlant] = useState('');
-  const [plantOpen, setPlantOpen] = useState(false);
+  const [plantOpen, setPlantOpen] = useState(true);
 
   const handlePlantInfoOpen = useCallback(plant => {
     setSelectedPlant(plant);
@@ -78,7 +78,7 @@ export default function Calendar() {
       <PlantInfo
         plantOpen={plantOpen}
         handlePlantClose={handlePlantInfoClose}
-        selectedPlant={selectedPlant}
+        selectedPlant={plantSchedule[0]}
         plantSchedule={plantSchedule}
       />
     </>
