@@ -12,6 +12,10 @@ export function displayInfoDate(date) {
   return moment(date).format('ddd, MMM Do YYYY');
 }
 
+export function isInFuture(fromDate, toDate) {
+  return moment(toDate).isAfter(fromDate);
+}
+
 export function getDay(date) {
   return moment(date).day();
 }
@@ -34,4 +38,20 @@ export function changeByOneDay(date, direction) {
   } else {
     return date;
   }
+}
+
+export function getUpcoming(selectedPlant, plantSchedule) {
+  return plantSchedule.filter(plant => {
+    return plant.name === selectedPlant.name && isInFuture(selectedPlant.start, plant.start);
+  });
+}
+
+export function getPast(selectedPlant, plantSchedule) {
+  return plantSchedule.filter(plant => {
+    return (
+      plant.name === selectedPlant.name &&
+      !isInFuture(selectedPlant.start, plant.start) &&
+      plant.id !== selectedPlant.id
+    );
+  });
 }

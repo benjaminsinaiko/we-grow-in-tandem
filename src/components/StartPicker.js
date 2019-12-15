@@ -16,7 +16,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import COLORS from '../utils/colors';
 import { useScheduleDispatch } from '../context/scheduleContext';
 import { getEndDate, displayRangeFormat } from '../utils/dateHelpers';
-import getScheduleDates from '../utils/getScheduleDates';
+import { getScheduleDates } from '../utils/getSchedule';
 
 const useStyles = makeStyles(theme => ({
   root: {

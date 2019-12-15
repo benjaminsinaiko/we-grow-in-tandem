@@ -14,7 +14,7 @@ import ArrowIcon from '@material-ui/icons/KeyboardArrowRight';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
-import getUpcoming from '../utils/getUpcoming';
+import { getUpcoming } from '../utils/dateHelpers';
 import { displayInfoDate } from '../utils/dateHelpers';
 import plantImage from '../img/plant.png';
 import COLORS from '../utils//colors';
@@ -72,7 +72,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, plantSchedule }) {
+export default function PlantInfo({
+  plantOpen,
+  handlePlantClose,
+  selectedPlant,
+  plantSchedule,
+  setPlantOpen
+}) {
   const classes = useStyles();
   const [upcoming, setUpcoming] = useState([]);
 
@@ -94,17 +100,18 @@ export default function PlantInfo({ plantOpen, handlePlantClose, selectedPlant, 
     <Dialog
       open={plantOpen}
       onClose={handlePlantClose}
-      aria-labelledby='alert-dialog-title'
-      aria-describedby='alert-dialog-description'
+      aria-labelledby='plant-info-modal'
+      aria-describedby='plant-info-modal'
+      transitionDuration={{ exit: 1500 }}
     >
-      <AdjustDay selectedPlant={selectedPlant} />
+      <AdjustDay selectedPlant={selectedPlant} setPlantOpen={setPlantOpen} />
       <div className={classes.dialogBox}>
         <div className={classes.header}>
           <img src={plantImage} alt='potted plant' style={{ width: 150, height: 150 }} />
           <div className={classes.title}>
             <Typography variant='h4'>{selectedPlant.title}</Typography>
             <Typography variant='subtitle1'>
-              Water every <span style={{ color: COLORS.blue }}>{selectedPlant.waterInfo}</span>
+              Water every <span style={{ color: COLORS.blue }}>{selectedPlant.water_after}</span>
             </Typography>
           </div>
         </div>

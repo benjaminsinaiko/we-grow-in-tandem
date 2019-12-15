@@ -1,7 +1,10 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import moment from 'moment';
 
-import getScheduleDates from '../utils/getScheduleDates';
+// import plant data, could also come from api/db
+import waterData from '../api/waterData.json';
+
+import { getScheduleDates } from '../utils/getSchedule';
 import { getEndDate } from '../utils/dateHelpers';
 
 const ScheduleContext = createContext();
@@ -14,6 +17,12 @@ function sheduleReducer(state, action) {
       return {
         startDate: action.startDate,
         endDate: action.endDate,
+        plantSchedule: action.plantSchedule
+      };
+    }
+    case 'UPDATE_PLANT': {
+      return {
+        ...state,
         plantSchedule: action.plantSchedule
       };
     }
@@ -40,7 +49,7 @@ const initialDates = {
 // Lazy initialization of watering schedule
 function init() {
   const { startDate, endDate } = initialDates;
-  const plantSchedule = getScheduleDates(startDate, endDate);
+  const plantSchedule = getScheduleDates(startDate, endDate, waterData);
   return { ...initialDates, plantSchedule: plantSchedule };
 }
 
