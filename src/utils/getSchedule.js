@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4';
 
 import { getPast } from './dateHelpers';
 
+// Get watering schedule for a specific plant
 export function getPlantSchedule(startDate, endDate, plant) {
   const daysBetweenWatering = parseInt(plant.water_after);
   let waterDay = startDate;
@@ -29,6 +30,7 @@ export function getPlantSchedule(startDate, endDate, plant) {
   return plantDays;
 }
 
+// Get watering schedule for all plants in array
 export function getScheduleDates(startDate, endDate, plantArray) {
   const plantSchedule = plantArray.reduce((waterDays, plant) => {
     const plantDays = getPlantSchedule(startDate, endDate, plant);
@@ -38,6 +40,7 @@ export function getScheduleDates(startDate, endDate, plantArray) {
   return plantSchedule;
 }
 
+// Generate new schedule for plant, based on updated watering date
 export function getNewSchedule(selectedPlant, schedule, newDate) {
   const pastDays = getPast(selectedPlant, schedule.plantSchedule);
   const newDates = getPlantSchedule(newDate, schedule.endDate, selectedPlant);

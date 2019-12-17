@@ -81,6 +81,7 @@ export default function StartPicker({ updateOpen, handleClose }) {
   const [endDate, setEndDate] = useState();
   const dispatchSchedule = useScheduleDispatch();
 
+  // Calculate schedule end date, based on new schedule inputs
   useEffect(() => {
     setEndDate(getEndDate(startDate, duration));
   }, [startDate, duration]);
@@ -97,6 +98,7 @@ export default function StartPicker({ updateOpen, handleClose }) {
     setDuration(e.target.value);
   }
 
+  // Update global schedule state
   function handleSubmit() {
     const schedule = {
       startDate: startDate,

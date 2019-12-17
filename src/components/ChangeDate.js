@@ -49,6 +49,7 @@ export default function ChangeDate({ selectedPlant, setPlantOpen }) {
     [newDate]
   );
 
+  // Update global schedule state with new plant schedule
   function handleSubmit() {
     const pastDays = getPast(selectedPlant, schedule.plantSchedule);
     const newDates = getPlantSchedule(newDate, schedule.endDate, selectedPlant);
