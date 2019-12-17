@@ -23,6 +23,10 @@ WeGrow also allows you to adjust the Schedule Start and Duration. Specific plant
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using npm v6.13.3.
 
+**WeGrow App** is live on [Netlify](https://netlify.com/):
+
+[https://we-grow.netlify.com/](https://we-grow.netlify.com/)
+
 ![WeGrow calendar view](./src/img/weGrow_calMonth.png)
 
 ## Code Challenge
