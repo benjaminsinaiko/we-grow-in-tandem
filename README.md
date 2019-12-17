@@ -1,68 +1,116 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![WeGrow logo](./src/img/weGrow_logo.png)
 
-## Available Scripts
+# WeGrow App
 
-In the project directory, you can run:
+The idea for this project came from a [Tandem](https://madeintandem.com/) code challenge.
 
-### `npm start`
+## Table of contents
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [About](#about)
+- [Code Challenge](#code-challenge)
+- [Installation](#installation)
+- [How to use](#how-to-use)
+- [To-do](#to-do)
+- [Issues](#issues)
+- [Credits](#credits)
+- [License](#license)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## About
 
-### `npm test`
+WeGrow takes your plants and their desired watering times and generates an optimal watering schedule (no weekends in the current setup). This schedule is presented in an easy to read calendar view - with Month, Week, and Day viewing options.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+WeGrow also allows you to adjust the Schedule Start and Duration. Specific plant watering days can be moved as well.
 
-### `npm run build`
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using npm v6.13.3.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![WeGrow calendar view](./src/img/weGrow_calMonth.png)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Code Challenge
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Goal
 
-### `npm run eject`
+Your goal is to create an application that generates a watering schedule for the next 12 weeks for all of
+our plants.
+Use creative license in terms of how you want us to see this schedule. At minimum, the plant caretaker
+looking at the schedule should be able to easily identify which plants to water on a particular date.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Assumptions
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- We do not water our plants on a weekend. Work-life balance is important, and we shouldn't be in
+  the office on a weekend.
+- Our plants are reasonably tolerant and will still be happy if they are watered a day before or after
+  the day they should be watered.
+- Watering an individual plant takes no time at all so you don't have to worry about how many
+  plants can be watered in a particular day.
+- The scheduling should start from next Monday and last for 12 weeks.
+- All plants will be watered on the first day of the schedule (next Monday).
+- We recognize that when to water a plant is heavily dependent on other factors such as soil,
+  weather, humidity, etc. You can assume that we know exactly when to water these specific plants.
+- You have been provided a JSON file which contains data for our plants.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Acceptance Criteria
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [x] The user can view which plant(s) to water on which date(s).
+- [x] The schedule covers the next 12 weeks starting next Monday.
+- [x] No plants are watered on Saturdays or Sundays.
+- [x] Each plant is watered on its desired schedule or as close as possible, taking into account weekends.
 
-## Learn More
+## Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You’ll need to have Node >= 8.10 and npm >= 5.6 on your machine.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Clone this repository
+$ git clone https://github.com/benjaminsinaiko/we-grow-in-tandem.git
 
-### Code Splitting
+# Go into the repository
+$ cd we-grow-in-tandom
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+# Install dependencies
+$ npm install
 
-### Analyzing the Bundle Size
+# Run the app
+$ npm start
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+# If a new page doesn't open go to http://localhost:3000/ to see your app.
+```
 
-### Making a Progressive Web App
+## How To Use
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+The app comes loaded with the initial plant data - with a start date of Dec 16th, 2019 and a watering duration of 12 weeks. This schedule can be updated by clicking on the update icon on the right side of the Navbar. Start date and duration can be amended.
 
-### Advanced Configuration
+![WeGrow update schedule](./src/img/weGrow_setSchedule.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+If a plant watering day gets missed, or needs to be rescheduled, the scheduled day can be adjusted from the plant info display. Adjust the day, select CHANGE DAY, and the schedule for the specific plant updates.
 
-### Deployment
+![WeGrow plant info](./src/img/weGrow_plantInfo.png)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## To-do
 
-### `npm run build` fails to minify
+- Add persistent state, either local storage or db, for retaining schedule start/end and specific plant dates
+  -Improve logic for changing plant watering days
+- Add a form to add new plants, with name and water schedule
+- Incorporate a plant data api for images and plant information
+- Add unit tests
+- Optimize component rendering
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Issues
+
+- For short watering durations, the app will allow you to change a plants schedule beyond the maximum days between, up until a weekend. Need to fix that logic
+- Not all calendar views optimized for mobile
+- No persistent state. Updated schedule and specific plant watering days will be lost with page refresh
+
+## Credits
+
+WeGrow uses the following open source packages:
+
+- [React](https://reactjs.org/)
+- [React Big Calendar](http://intljusticemission.github.io/react-big-calendar/examples/index.html)
+- [Material UI](https://material-ui.com/)
+- [Material UI - Pickers](https://material-ui-pickers.dev/)
+- [uuid](https://github.com/kelektiv/node-uuid#readme)
+
+## License
+
+This project is licensed under the terms of the
+[MIT license](/LICENSE).
